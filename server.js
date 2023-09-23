@@ -14,7 +14,7 @@ const port = process.env.PORT || 3000;
 
 //create app of express
 const app = express();
-
+app.use(express.urlencoded({ extended: true }));
 app.use(cors({
   origin: "https://wepostnow.onrender.com"
 }));
@@ -22,7 +22,7 @@ app.use(cors({
 
 app.use(express.json());
 
-app.use(express.urlencoded({ extended: true }));
+
 
 
 connection();
