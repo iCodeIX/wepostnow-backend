@@ -10,9 +10,8 @@ const fetchComments = async (req, res) => {
         .populate('user')
         .then((data) => {
             res.send(data).json(data);
+            console.log(data);
         })
-
-
         
 }
 
