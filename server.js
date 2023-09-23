@@ -37,7 +37,7 @@ app.post("/update-profile", upload.single('profileImg'), controller.updateProfil
 
 
 app.post("/create-post", postController.createPost);
-app.post("/posts", postController.fetchAllPosts);
+app.get("/posts", postController.fetchAllPosts);
 
 app.post("/create-comment", commentController.createComment);
 app.post("/fetch-comments", commentController.fetchComments);

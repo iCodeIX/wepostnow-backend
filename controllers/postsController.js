@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const createPost = async (req, res) => {
     const { postContent, userId } = req.body;
     let newPostId = "";
+    
     await Post.create({
         postContent: postContent,
         user: userId
