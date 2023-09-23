@@ -5,7 +5,7 @@ const mongoose = require("mongoose");
 const createPost = async (req, res) => {
     const { postContent, userId } = req.body;
     let newPostId = "";
-    
+
     await Post.create({
         postContent: postContent,
         user: userId
@@ -25,19 +25,23 @@ const createPost = async (req, res) => {
 }
 
 const fetchAllPosts = async (req, res) => {
-    const { userId } = req.body;
 
-    if (userId) {
-        await Post.find({ user: userId })
-            .sort({ 'createdAt': -1 })
-            .populate('user')
-            .then((data) => {
-                res.json(data);
-            }
-            );
+    await Post.find({})
+        .sort({ 'createdAt': -1 })
+        .populate('user')
+        .then((data) => {
+            res.json(data);
+        }
+        );
 
-    } else {
-        await Post.find({})
+}
+
+const fetchUserPosts = async (req, res) => {
+    const id = req.params.id;
+ 
+    if (id) {
+        console.log("i have an id");
+        await Post.find({ user: id })
             .sort({ 'createdAt': -1 })
             .populate('user')
             .then((data) => {
@@ -52,5 +56,6 @@ const fetchAllPosts = async (req, res) => {
 
 module.exports = {
     createPost,
-    fetchAllPosts
+    fetchAllPosts,
+    fetchUserPosts
 }

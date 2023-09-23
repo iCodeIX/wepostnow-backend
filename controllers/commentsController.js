@@ -9,8 +9,7 @@ const fetchComments = async (req, res) => {
         .sort({ 'updatedAt': -1 })
         .populate('user')
         .then((data) => {
-            res.send(data).json(data);
-            console.log(data);
+            res.json(data);
         })
         
 }

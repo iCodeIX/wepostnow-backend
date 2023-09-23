@@ -98,9 +98,10 @@ const updateProfile = async (req, res) => {
 
 
     const { id, bio } = req.body;
-    let imgPath = req.file.path;
 
     if (req.file) {
+        let imgPath = req.file.path;
+
         await User.findOneAndUpdate({ _id: id },
             {
                 bio,

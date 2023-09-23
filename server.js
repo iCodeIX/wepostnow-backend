@@ -16,7 +16,7 @@ const port = process.env.PORT || 3000;
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
-  origin: "https://wepostnow.onrender.com"
+  origin: ["http://localhost:3001", "https://wepostnow.onrender.com"]
 }));
 
 
@@ -37,7 +37,9 @@ app.post("/update-profile", upload.single('profileImg'), controller.updateProfil
 
 
 app.post("/create-post", postController.createPost);
-app.get("/posts", postController.fetchAllPosts);
+app.post("/posts", postController.fetchAllPosts);
+app.get("/posts/userposts/:id", postController.fetchUserPosts);
+
 
 app.post("/create-comment", commentController.createComment);
 app.post("/fetch-comments", commentController.fetchComments);
