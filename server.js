@@ -11,7 +11,7 @@ const cors = require("cors");
 const upload = require("./middleware/uploader");
 const bodyParser = require('body-parser');
 const port = process.env.PORT || 3000;
-
+const path = require('path');
 //create app of express
 const app = express();
 app.use(express.urlencoded({ extended: true }));
@@ -23,9 +23,13 @@ app.use(cors({
 app.use(express.json());
 
 
-
-
 connection();
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.post("/signup", upload.single('profileImg'), controller.createUser);
 app.post("/fetch-user", controller.fetchUser);
