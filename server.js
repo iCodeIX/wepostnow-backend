@@ -26,11 +26,9 @@ app.use(express.json());
 connection();
 
 app.use(express.static(path.join(__dirname, 'build')));
-
-app.get('/', function (req, res) {
+app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
-
 app.post("/signup", upload.single('profileImg'), controller.createUser);
 app.post("/fetch-user", controller.fetchUser);
 app.post("/login", controller.login);
