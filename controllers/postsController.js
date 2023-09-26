@@ -40,7 +40,6 @@ const fetchUserPosts = async (req, res) => {
     const id = req.params.id;
  
     if (id) {
-        console.log("i have an id");
         await Post.find({ user: id })
             .sort({ 'createdAt': -1 })
             .populate('user')

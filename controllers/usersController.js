@@ -97,7 +97,7 @@ async function login(req, res) {
 const updateProfile = async (req, res) => {
 
 
-    const { id, bio } = req.body;
+    const { id, bio, gender } = req.body;
 
     if (req.file) {
         let imgPath = req.file.path;
@@ -105,7 +105,8 @@ const updateProfile = async (req, res) => {
         await User.findOneAndUpdate({ _id: id },
             {
                 bio,
-                profileImg: imgPath
+                profileImg: imgPath,
+                gender
             }).then((response) => {
                 res.json(response.data);
             }).catch((err) => {
@@ -115,6 +116,7 @@ const updateProfile = async (req, res) => {
         await User.findOneAndUpdate({ _id: id },
             {
                 bio,
+                gender
 
             }).then((response) => {
                 res.json(response.data);
@@ -161,6 +163,31 @@ const searchUser = async (req, res) => {
 }
 
 
+const changePassword = async (req, res) => {
+    const { newPassword, oldPassword, userId } = req.body;
+    const decodedNewPass = bcrypt.hashSync(newPassword);
+
+    try {
+        const user = await User.findOne({ _id: userId });
+        const comparePass = bcrypt.compareSync(oldPassword, user.password);
+
+        if (!comparePass) { return res.status(401).json({ message: "Old password is wrong!" }); }
+
+        await User.findOneAndUpdate({ _id: userId }, {
+            password: decodedNewPass
+        }).then((data) => {
+            return res.status(200).json({ message: "Password successfully changed!" });
+        })
+            .catch((err) => {
+                console.log("error updating password!")
+            });
+
+    } catch (error) {
+        console.log(error);
+    }
+
+}
+
 
 module.exports = {
     createUser,
@@ -169,5 +196,6 @@ module.exports = {
     updateProfile,
     logout,
     viewProfile,
-    searchUser
+    searchUser,
+    changePassword
 }

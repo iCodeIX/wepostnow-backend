@@ -32,7 +32,7 @@ app.get("/logout", controller.logout);
 app.get("/profile/:id", controller.viewProfile);
 app.post("/search-user", controller.searchUser);
 app.post("/update-profile", upload.single('profileImg'), controller.updateProfile);
-
+app.post("/update-password", controller.changePassword);
 
 app.post("/create-post", postController.createPost);
 app.post("/posts", postController.fetchAllPosts);
