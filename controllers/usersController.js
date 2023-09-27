@@ -8,7 +8,7 @@ async function createUser(req, res) {
     const decodedPass = bcrypt.hashSync(password);
     const defaultAvatar = "https://res.cloudinary.com/df9i6l8cw/image/upload/v1695429568/userphoto/vuissdcq3kdpv9nd22ff.png";
     let userId = "";
-    let imgPath = req.file.path;
+   
 
     try {
         const userExist = await User.findOne({ username: username });
@@ -16,18 +16,18 @@ async function createUser(req, res) {
         if (userExist) {
             return res
                 .status(422)
-                .json({ error: "Username already exists" });
+                .json({ error: "Username already exist" });
         }
 
         if (emailExist) {
             return res
                 .status(422)
-                .json({ error: "Email already exists" });
+                .json({ error: "Email already exist" });
         }
 
 
         if (req.file) {
-
+            let imgPath = req.file.path;
             await User.create({
                 username: username,
                 email: email,
