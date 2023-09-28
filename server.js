@@ -9,9 +9,9 @@ const postController = require("./controllers/postsController");
 const commentController = require("./controllers/commentsController");
 const cors = require("cors");
 const upload = require("./middleware/uploader");
-const bodyParser = require('body-parser');
 const port = process.env.PORT || 3000;
-const path = require('path');
+const jwt = require('jsonwebtoken');
+
 //create app of express
 const app = express();
 app.use(express.urlencoded({ extended: true }));
