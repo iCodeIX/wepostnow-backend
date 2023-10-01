@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== 'production') {
 //import depencies
 const express = require("express");
 const connection = require("./config/connection");
-const controller = require("./controllers/usersController");
+const userController = require("./controllers/usersController");
 const postController = require("./controllers/postsController");
 const commentController = require("./controllers/commentsController");
 const cors = require("cors");
@@ -25,14 +25,14 @@ app.use(express.json());
 
 connection();
 
-app.post("/signup", upload.single('profileImg'), controller.createUser);
-app.post("/fetch-user", controller.fetchUser);
-app.post("/login", controller.login);
-app.get("/logout", controller.logout);
-app.get("/profile/:id", controller.viewProfile);
-app.post("/search-user", controller.searchUser);
-app.post("/update-profile", upload.single('profileImg'), controller.updateProfile);
-app.post("/update-password", controller.changePassword);
+app.post("/signup", upload.single('profileImg'), userController.createUser);
+app.post("/fetch-user", userController.fetchUser);
+app.post("/login", userController.login);
+app.get("/logout", userController.logout);
+app.get("/profile/:id", userController.viewProfile);
+app.post("/search-user", userController.searchUser);
+app.post("/update-profile", upload.single('profileImg'), userController.updateProfile);
+app.post("/update-password", userController.changePassword);
 
 app.post("/create-post", postController.createPost);
 app.post("/posts", postController.fetchAllPosts);
