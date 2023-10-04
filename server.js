@@ -34,10 +34,12 @@ app.post("/search-user", userController.searchUser);
 app.post("/update-profile", upload.single('profileImg'), userController.updateProfile);
 app.post("/update-password", userController.changePassword);
 
+
 app.post("/create-post", postController.createPost);
 app.post("/posts", postController.fetchAllPosts);
 app.get("/posts/userposts/:id", postController.fetchUserPosts);
 
+/*comments routes*/
 
 app.post("/create-comment", commentController.createComment);
 app.post("/fetch-comments", commentController.fetchComments);
