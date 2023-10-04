@@ -7,6 +7,7 @@ const connection = require("./config/connection");
 const userController = require("./controllers/usersController");
 const postController = require("./controllers/postsController");
 const commentController = require("./controllers/commentsController");
+const messageController = require("./controllers/messagesController");
 const cors = require("cors");
 const upload = require("./middleware/uploader");
 const port = process.env.PORT || 3000;
@@ -44,4 +45,8 @@ app.get("/posts/userposts/:id", postController.fetchUserPosts);
 app.post("/create-comment", commentController.createComment);
 app.post("/fetch-comments", commentController.fetchComments);
 
+/* messages routes */
+app.post("/send-message", messageController.createMessage);
+app.get("/fetch-convos/:id", messageController.fetchConversations);
+app.get("/fetch-convo-messages/:id", messageController.fetchConvoMessages);
 app.listen(port);
