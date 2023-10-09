@@ -15,6 +15,7 @@ const jwt = require('jsonwebtoken');
 
 //create app of express
 const app = express();
+
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
   origin: ["http://localhost:3001", "https://wepostnow.onrender.com"]
@@ -49,4 +50,8 @@ app.post("/fetch-comments", commentController.fetchComments);
 app.post("/send-message", messageController.createMessage);
 app.get("/fetch-convos/:id", messageController.fetchConversations);
 app.get("/fetch-convo-messages/:id", messageController.fetchConvoMessages);
+
+
+
 app.listen(port);
+

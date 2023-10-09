@@ -6,7 +6,7 @@ const fetchComments = async (req, res) => {
     const { postId } = req.body;
 
     await Comment.find({ post: postId })
-        .sort({ 'updatedAt': -1 })
+        .sort({ 'createdAt': -1 })
         .populate('user')
         .then((data) => {
             res.json(data);
