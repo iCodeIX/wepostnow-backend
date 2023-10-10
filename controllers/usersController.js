@@ -1,14 +1,15 @@
 
 const User = require("../models/user");
-const bcrypt = require("bcryptjs");
-
-
+const bcrypt = require("bcrypt");
+const saltRounds = 10;
+const jwt = require('jsonwebtoken');
+const nodemailer = require("nodemailer");
 async function createUser(req, res) {
     const { username, email, password, gender } = req.body;
     const decodedPass = bcrypt.hashSync(password);
     const defaultAvatar = "https://res.cloudinary.com/df9i6l8cw/image/upload/v1695429568/userphoto/vuissdcq3kdpv9nd22ff.png";
     let userId = "";
-   
+
 
     try {
         const userExist = await User.findOne({ username: username });
@@ -189,6 +190,78 @@ const changePassword = async (req, res) => {
 }
 
 
+const forgotPassword = async (req, res) => {
+    const { email } = req.body;
+
+    await User.findOne({ email: email })
+        .then((user) => {
+            if (!user) {
+                return res.send({ Status: "The email is not yet registered!" })
+            }
+
+            const token = jwt.sign({ id: user._id }, "my_secret_key", { expiresIn: "1d" })
+
+            var transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'wepostnowwebsite@gmail.com',
+                    pass: 'zhodgvgtnjrlcdxu'
+                }
+            });
+
+            var mailOptions = {
+                from: 'wepostnowwebsite@gmail.com',
+                to: email,
+                subject: 'Reset wepostnow password',
+                text: `https://wepostnow.onrender.com/reset-password/${user._id}/${token}`
+            };
+
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) {
+                    console.log(error);
+                } else {
+                    return res.send({ Status: "Success" })
+                }
+            });
+        })
+        .catch(err => {
+            console.log(err);
+        })
+
+}
+
+
+const resetPassword = async (req, res) => {
+    const { id, token } = req.params;
+    const { password } = req.body;
+
+    jwt.verify(token, "my_secret_key", (err, decoded) => {
+        if (err) {
+            return res.json({ Status: "Error with token" })
+        } else {
+
+            bcrypt.hash(password, saltRounds, function (err, hash) {
+                console.log(password);
+                try {
+                    User.findOneAndUpdate({ _id: id }, {
+                        password: hash
+                    }).then((data) => {
+                        return res.send({ Status: "Success" });
+                    })
+                        .catch((err) => {
+                            console.log("error updating password!")
+                        });
+
+                } catch (error) {
+                    console.log(error);
+                }
+
+            })
+        }
+    })
+}
+
+
 module.exports = {
     createUser,
     fetchUser,
@@ -197,5 +270,7 @@ module.exports = {
     logout,
     viewProfile,
     searchUser,
-    changePassword
+    changePassword,
+    forgotPassword,
+    resetPassword
 }

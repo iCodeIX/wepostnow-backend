@@ -27,6 +27,7 @@ app.use(express.json());
 
 connection();
 
+/*users routes*/
 app.post("/signup", upload.single('profileImg'), userController.createUser);
 app.post("/fetch-user", userController.fetchUser);
 app.post("/login", userController.login);
@@ -35,14 +36,15 @@ app.get("/profile/:id", userController.viewProfile);
 app.post("/search-user", userController.searchUser);
 app.post("/update-profile", upload.single('profileImg'), userController.updateProfile);
 app.post("/update-password", userController.changePassword);
+app.post("/forgot-password", userController.forgotPassword);
+app.post("/reset-password/:id/:token", userController.resetPassword);
 
-
+/*posts routes*/
 app.post("/create-post", postController.createPost);
 app.post("/posts", postController.fetchAllPosts);
 app.get("/posts/userposts/:id", postController.fetchUserPosts);
 
 /*comments routes*/
-
 app.post("/create-comment", commentController.createComment);
 app.post("/fetch-comments", commentController.fetchComments);
 
