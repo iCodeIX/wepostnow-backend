@@ -196,7 +196,7 @@ const forgotPassword = async (req, res) => {
     await User.findOne({ email: email })
         .then((user) => {
             if (!user) {
-                return res.send({ Status: "The email is not yet registered!" })
+                return res.json({ Status: "Your email is not yet registered!" })
             }
 
             const token = jwt.sign({ id: user._id }, "my_secret_key", { expiresIn: "1d" })
