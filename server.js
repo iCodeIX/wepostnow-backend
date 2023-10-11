@@ -40,7 +40,7 @@ app.post("/forgot-password", userController.forgotPassword);
 app.post("/reset-password/:id/:token", userController.resetPassword);
 
 /*posts routes*/
-app.post("/create-post", postController.createPost);
+app.post("/create-post", upload.single('postImage'), postController.createPost);
 app.post("/posts", postController.fetchAllPosts);
 app.get("/posts/userposts/:id", postController.fetchUserPosts);
 

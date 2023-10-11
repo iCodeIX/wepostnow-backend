@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
+
 async function createUser(req, res) {
     const { username, email, password, gender } = req.body;
     const decodedPass = bcrypt.hashSync(password);
