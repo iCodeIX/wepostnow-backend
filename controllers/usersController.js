@@ -1,6 +1,7 @@
 
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
@@ -167,11 +168,11 @@ const searchUser = async (req, res) => {
 
 const changePassword = async (req, res) => {
     const { newPassword, oldPassword, userId } = req.body;
-    const decodedNewPass = bcrypt.hashSync(newPassword);
+    const decodedNewPass = bcryptjs.hashSync(newPassword);
 
     try {
         const user = await User.findOne({ _id: userId });
-        const comparePass = bcrypt.compareSync(oldPassword, user.password);
+        const comparePass = bcryptjs.compareSync(oldPassword, user.password);
 
         if (!comparePass) { return res.status(401).json({ message: "Old password is wrong!" }); }
 
