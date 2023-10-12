@@ -8,7 +8,7 @@ const nodemailer = require("nodemailer");
 
 async function createUser(req, res) {
     const { username, email, password, gender } = req.body;
-    const decodedPass = bcrypt.hashSync(password);
+    const decodedPass = bcryptjs.hashSync(password);
     const defaultAvatar = "https://res.cloudinary.com/df9i6l8cw/image/upload/v1695429568/userphoto/vuissdcq3kdpv9nd22ff.png";
     let userId = "";
 
