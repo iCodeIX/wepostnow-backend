@@ -43,7 +43,7 @@ app.post("/reset-password/:id/:token", userController.resetPassword);
 app.post("/create-post", upload.single('postImage'), postController.createPost);
 app.post("/posts", postController.fetchAllPosts);
 app.get("/posts/userposts/:id", postController.fetchUserPosts);
-
+app.post("/delete-post", postController.deletePost);
 /*comments routes*/
 app.post("/create-comment", commentController.createComment);
 app.post("/fetch-comments", commentController.fetchComments);

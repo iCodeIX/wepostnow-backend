@@ -1,6 +1,6 @@
 const Post = require("../models/post");
 const User = require("../models/user");
-const mongoose = require("mongoose");
+
 
 const createPost = async (req, res) => {
     const { postContent, userId } = req.body;
@@ -74,8 +74,21 @@ const fetchUserPosts = async (req, res) => {
 
 }
 
+const deletePost = async (req, res) => {
+    const { post_id } = req.body;
+    await Post.deleteOne({ _id: post_id })
+        .then((data) => {
+            return res.json({ Success: "Post deleted" })
+        })
+        .catch(
+            err => console.log(err)
+        )
+
+}
+
 module.exports = {
     createPost,
     fetchAllPosts,
-    fetchUserPosts
+    fetchUserPosts,
+    deletePost
 }
